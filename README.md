@@ -29,8 +29,7 @@ cd client
 go run main.go
 ```
 
-5. Access the client application in your web browser by navigating to http://localhost:9191. You will see a link to "
-   Sign Up Using Kancyl."
+5. Access the client application in your web browser by navigating to http://localhost:9191. You will see a link to "Sign Up Using Kancyl"
 
 6. Click the "Sign Up Using Kancyl" link, which will initiate the OAuth 2.0 authorization process. You will be
    redirected to the authorization server for authentication and authorization.
