@@ -7,12 +7,6 @@ import (
 
 func authenticationPage(w http.ResponseWriter, r *http.Request) {
 	originalURL := r.FormValue("original_url")
-	if originalURL == "" {
-		originalURL = "/"
-	} else {
-		originalURL = originalURL[1:]
-	}
-
 	token, _ := r.Cookie("auth_token")
 	if token != nil && token.Value != "" {
 		http.Redirect(w, r, originalURL, http.StatusFound)
