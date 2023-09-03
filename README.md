@@ -1,65 +1,77 @@
-# OAuth2 Implementation Example
+# Client-Server Interaction for OAuth 2.0 Authentication
 
-This is an example implementation of OAuth2 in Go using Gorilla Mux and JWT for token management. This implementation
-includes the basic components of OAuth2, such as authentication, authorization, and token generation. Here's a brief
-overview of the project structure and functionality:
+This project consists of a client and a server. The client initiates the OAuth 2.0 authentication process by redirecting
+users to the server for authentication and authorization. Once the user grants permission, the server redirects back to
+the client with an authorization code, which the client exchanges for an access token.
 
-## Project Structure
+## Client
 
-- `main.go`: The main entry point of the application that sets up the HTTP server and defines the main routing logic.
+1. Open the client directory in your terminal:
 
-- `authentication.go`: Handles user authentication and issues an authentication token (JWT) upon successful login.
+```bash
+cd client
+```
 
-- `authorization.go`: Manages authorization and generates an authorization code that clients can use to request an
-  access token.
+2. Open the `main.go` file in your preferred code editor and update the following variables:
 
-- `token.go`: Contains functions to validate JWT tokens and generate access tokens for authorized clients.
+- `clientId`: Your OAuth 2.0 client ID.
+- `clientSecret`: Your OAuth 2.0 client secret.
+- `callbackUrl`: The callback URL where the authorization server redirects the user after authentication. Make sure this
+  URL is registered with your OAuth 2.0 server.
+- `tokenUrl`: The URL of the OAuth 2.0 token endpoint where the authorization code will be exchanged for an access
+  token.
 
-- `response.go`: A utility for creating JSON responses with error handling.
+3. Save your changes.
 
-## Usage
+4. Start the client application by running the following command:
 
-- Start the server by running main.go.
+```bash
+go run main.go
+```
 
-- Access the /login route to initiate the authentication process. Users are prompted to enter their username and
-  password.
+5. Access the client application in your web browser by navigating to http://localhost:9191. You will see a link to "
+   Sign Up Using Kancyl."
 
-- Upon successful authentication, an authentication token (JWT) is generated and stored as a cookie.
+6. Click the "Sign Up Using Kancyl" link, which will initiate the OAuth 2.0 authorization process. You will be
+   redirected to the authorization server for authentication and authorization.
 
-- Users can access the /authorize route to authorize a client application to access their resources. The user must be
-  logged in to access this route.
+## Server
 
-- After authorization, an authorization code is generated and passed to the client's callback URL.
+1. Open the server directory in a new terminal window:
 
-- The client can then exchange the authorization code for an access token by making a GET request to the /token route
-  with the code.
+```bash
+cd server
+```
 
-## Configuration
+2. Open the main.go file in your preferred code editor and configure the server to handle OAuth 2.0 authentication and
+   authorization. Implement the authorization and token endpoints on the server to facilitate the OAuth 2.0 flow.
 
-- User credentials and client details are stored in memory for simplicity. In a production environment, these should be
-  stored securely, such as in a database.
+3. Start the server by running the following command:
 
-- The JWT secret key (secretKey) should be kept secret and stored securely. In a real-world scenario, you would likely
-  use a more complex and secure key management solution.
+```bash
+go run main.go
+```
 
-## Security Considerations
+4. The server should be running and listening for incoming OAuth 2.0 authorization requests from the client.
 
-- This example provides a basic OAuth2 flow for demonstration purposes. In a production system, you must implement
-  additional security measures, such as HTTPS, user session management, and secure storage of secrets.
+## OAuth 2.0 Flow
 
-- Ensure that you follow best practices for securing user credentials, access tokens, and authorization codes.
+1. The client application (client) initiates the OAuth 2.0 flow by sending the user to the authorization server (server)
+   for authentication and authorization.
 
-- Implement rate limiting and other security measures to prevent abuse.
+2. The authorization server handles user authentication and authorization.
 
-## Dependencies
+3. After successful authentication and authorization, the authorization server redirects the user back to the client
+   application's callback URL (callbackUrl) with an authorization code.
 
-- Gorilla Mux: A powerful HTTP router and URL matcher for building Go web applications.
+4. The client application receives the authorization code and exchanges it for an access token by sending a request to
+   the OAuth 2.0 token endpoint (tokenUrl) on the authorization server.
 
-- jwt-go: JSON Web Token (JWT) library for Go.
+5. The authorization server validates the authorization code and responds with an access token.
 
-## Disclaimer
+6. The client application can now use the obtained access token to make authorized API requests to protected resources
+   on the server.
 
-This is a simplified example meant for educational purposes. In a real-world scenario, you should use a dedicated OAuth2
-library and adhere to OAuth2 standards and best practices.
-
-Feel free to enhance and adapt this example to your specific use case and security requirements.
+This project demonstrates a basic OAuth 2.0 client-server interaction for user authentication and authorization. In a
+production environment, you should handle errors, implement security best practices, and further customize the client
+and server applications as needed.
